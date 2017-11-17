@@ -33,7 +33,7 @@ public class LoginActivity extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences("Naveen",MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("LoginState","0");
+        editor.putInt("LoginState",0);
         editor.commit();
 
 

@@ -1,5 +1,6 @@
 package com.naveen.samplesharedpreferences;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -19,6 +20,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.naveen.samplesharedpreferences.samplefragment.Fragment_A;
+import com.naveen.samplesharedpreferences.samplefragment.Fragment_B;
+import com.naveen.samplesharedpreferences.samplefragment.Fragment_C;
 
 public class WelcomeActivity extends AppCompatActivity {
 
@@ -37,6 +43,9 @@ public class WelcomeActivity extends AppCompatActivity {
      */
     private ViewPager mViewPager;
 
+    SharedPreferences sharedPreferences;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,11 +62,9 @@ public class WelcomeActivity extends AppCompatActivity {
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
 
-
-
-        SharedPreferences sharedPreferences = getSharedPreferences("Naveen",MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences("Naveen", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("LoginState","1");
+        editor.putInt("LoginState", 1);
         editor.commit();
 
 
@@ -94,45 +101,25 @@ public class WelcomeActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+
+
+            SharedPreferences.Editor editor =  sharedPreferences.edit();
+            editor.clear();
+            editor.commit();
+            Toast.makeText(this, "User Deleted", Toast.LENGTH_SHORT).show();
+
+            Intent intent = new Intent(WelcomeActivity.this,LoginActivity.class);
+            startActivity(intent);
+            finish();
+
             return true;
         }
 
+        if (id== R.id.settings){
+            Toast.makeText(this, "Settings", Toast.LENGTH_SHORT).show();
+        }
+
         return super.onOptionsItemSelected(item);
-    }
-
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
-
-        public PlaceholderFragment() {
-        }
-
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_welcome, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
-            return rootView;
-        }
     }
 
     /**
@@ -149,7 +136,27 @@ public class WelcomeActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            return PlaceholderFragment.newInstance(position + 1);
+
+            switch (position) {
+
+
+                case 0:
+
+                    Fragment_A fragment_a = new Fragment_A();
+                    return fragment_a;
+
+                case 1:
+                    Fragment_B fragment_b = new Fragment_B();
+                    return fragment_b;
+
+                case 2:
+                    Fragment_C fragment_c = new Fragment_C();
+                    return fragment_c;
+
+            }
+
+            Fragment_A fragment_a1 = new Fragment_A();
+            return fragment_a1;
         }
 
         @Override

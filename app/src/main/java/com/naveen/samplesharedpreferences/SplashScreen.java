@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 
 public class SplashScreen extends AppCompatActivity {
 
@@ -19,7 +20,9 @@ public class SplashScreen extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("Naveen",MODE_PRIVATE);
 
 
-        final String loginstate = sharedPreferences.getString("LoginState","");
+        final int loginstate = sharedPreferences.getInt("LoginState",0);
+
+
 
         Thread thread = new Thread(new Runnable() {
             @Override
@@ -29,11 +32,11 @@ public class SplashScreen extends AppCompatActivity {
                 try {
                     Thread.sleep(3000);
 
-                    if (loginstate.equals("0")) {
+                    if (loginstate == 0) {
                         Intent intent = new Intent(SplashScreen.this, LoginActivity.class);
                         startActivity(intent);
                         finish();
-                    }else if (loginstate.equals("1"))
+                    }else if (loginstate == 1)
                     {
                         Intent intent = new Intent(SplashScreen.this, WelcomeActivity.class);
                         startActivity(intent);
